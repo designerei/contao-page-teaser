@@ -41,7 +41,7 @@ class PageTeaserController extends AbstractContentElementController
                 }
 
                 // model
-                // $pages[$key]['model'] = $page;
+                $pages[$key]['model'] = $page;
             }
         }
 
