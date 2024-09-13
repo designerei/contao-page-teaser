@@ -13,7 +13,9 @@
     "authors": [
         {
             "name": "Hendrik Bengs",
-            "email": "hben@designerei-werbeagentur.de"
+            "email": "hben@designerei-werbeagentur.de",
+            "homepage": "https://designerei-werbeagentur.de",
+            "role": "Developer"
         }
     ],
     "extra": {

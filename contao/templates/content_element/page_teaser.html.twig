@@ -1,0 +1,8 @@
+{% extends '@Contao/content_element/_base.html.twig' %}
+{% use "@Contao/component/_page_teaser.html.twig" %}
+
+{% block inner %}
+    {% with { page: pages|first } %}
+        {{ block('page_teaser_component') }}
+    {% endwith %}
+{% endblock %}

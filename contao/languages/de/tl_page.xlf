@@ -1,0 +1,18 @@
+<?xml version="1.0" ?><xliff version="1.1">
+    <file datatype="php" original="contao/languages/en/tl_page.php" source-language="en" target-language="de">
+        <body>
+            <trans-unit id="tl_page.teaser.0">
+                <source>Page teaser</source>
+                <target>Seitenteaser</target>
+            </trans-unit>
+            <trans-unit id="tl_page.teaser.1">
+                <source>The article teaser can also be displayed with the content element &quot;page teaser&quot;.</source>
+                <target>Der Teasertext kann auch mit dem Inhaltselement &quot;Seitenteaser&quot; dargestellt werden.</target>
+            </trans-unit>
+            <trans-unit id="tl_page.teaser_legend">
+                <source>Teaser</source>
+                <target>Teaser</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

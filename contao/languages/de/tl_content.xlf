@@ -1,0 +1,14 @@
+<?xml version="1.0" ?><xliff version="1.1">
+    <file datatype="php" original="contao/languages/en/tl_content.php" source-language="en" target-language="de">
+        <body>
+            <trans-unit id="tl_content.pages.0">
+                <source>Pages</source>
+                <target>Seiten</target>
+            </trans-unit>
+            <trans-unit id="tl_content.pages.1">
+                <source>Please choose one or more pages.</source>
+                <target>Bitte wählen Sie eine oder mehrere Seiten.</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

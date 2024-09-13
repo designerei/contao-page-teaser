@@ -1,0 +1,27 @@
+{% trans_default_domain "contao_default" %}
+{% use "@Contao/component/_headline.html.twig" %}
+{% use "@Contao/component/_read_more.html.twig" %}
+{% use "@Contao/component/_rich_text.html.twig" %}
+
+{% block page_teaser_component %}
+    {% with { headline: headline|default(_context)|merge({tag_name: 'h1', text: page.title})} %}
+        {{ block('headline_component') }}
+    {% endwith %}
+
+    {% block teaser %}
+        {% if page.teaser|default %}
+            {% with { text: page.teaser } %}
+                {{ block('rich_text_component') }}
+            {% endwith %}
+        {% endif %}
+    {% endblock %}
+
+    {% block link %}
+        {% with {
+            title: 'MSC.readMore'|trans([page.title]),
+            href: page.href
+        } %}
+            {{ block('read_more_component') }}
+        {% endwith %}
+    {% endblock %}
+{% endblock %}
