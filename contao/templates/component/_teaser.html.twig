@@ -1,0 +1,34 @@
+{% trans_default_domain "contao_default" %}
+{% use "@Contao/component/_headline.html.twig" %}
+{% use "@Contao/component/_read_more.html.twig" %}
+{% use "@Contao/component/_rich_text.html.twig" %}
+{% use "@Contao/component/_picture.html.twig" %}
+
+{% block teaser_component %}
+    {% set teaser = teaser|default(_context) %}
+
+    {% with { headline: headline|default(_context)|merge({tag_name: 'h1', text: teaser.title}) } only %}
+        {{ block('headline_component') }}
+    {% endwith %}
+
+    {% block text %}
+        {% if teaser.text|default %}
+            {% with { text: teaser.text } only %}
+                {{ block('rich_text_component') }}
+            {% endwith %}
+        {% endif %}
+    {% endblock %}
+
+    {% block link %}
+        {% with { title: 'MSC.readMore'|trans([teaser.title]), href: teaser.href } only %}
+            {{ block('read_more_component') }}
+        {% endwith %}
+    {% endblock %}
+
+    {% block images %}
+        {% if teaser.images|default %}
+            {% with {figure: teaser.images|first} only %}{{ block('picture_component') }}{% endwith %}
+        {% endif %}
+    {% endblock %}
+
+{% endblock %}

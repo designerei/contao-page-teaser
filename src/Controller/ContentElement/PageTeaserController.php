@@ -5,6 +5,7 @@ namespace designerei\ContaoPageTeaserBundle\Controller\ContentElement;
 use Contao\ContentModel;
 use Contao\CoreBundle\Controller\ContentElement\AbstractContentElementController;
 use Contao\CoreBundle\DependencyInjection\Attribute\AsContentElement;
+use Contao\CoreBundle\Image\Studio\Studio;
 use Contao\CoreBundle\Twig\FragmentTemplate;
 use Contao\StringUtil;
 use Contao\PageModel;
@@ -14,6 +15,10 @@ use Symfony\Component\HttpFoundation\Response;
 #[AsContentElement('page_teaser', category: 'includes')]
 class PageTeaserController extends AbstractContentElementController
 {
+    public function __construct(private readonly Studio $studio)
+    {
+    }
+
     protected function getResponse(FragmentTemplate $template, ContentModel $model, Request $request): Response
     {
 
@@ -59,19 +64,37 @@ class PageTeaserController extends AbstractContentElementController
         foreach ($pages as $key => $page) {
 
             // title
-            $items[$key]['title'] = $page->title;
+            $items[$key]['title'] = $page->teaserTitle ?: $page->title;
 
             // href
             $href = $page->getFrontendUrl();
             $items[$key]['href'] = $href;
 
             // teaser
-            if ($page->teaser != null) {
-                $items[$key]['teaser'] = $page->teaser;
+            if ($page->teaserText != null) {
+                $items[$key]['text'] = $page->teaserText;
+            }
+
+            // image
+            if ($page->pageImage != null) {
+
+                $pageImage = StringUtil::deserialize($page->pageImage);
+                $images = array();
+
+                foreach ($pageImage as $image) {
+                    $images[] = $this->studio
+                        ->createFigureBuilder()
+                        ->fromUuid($image ?: '')
+                        ->setSize($model->size)
+                        ->buildIfResourceExists()
+                    ;
+                }
+
+                $items[$key]['images'] = $images;
             }
 
             // PageModel
-            $items[$key]['model'] = $page;
+            // $items[$key]['model'] = $page;
         }
 
         $template->set('pages', $items);

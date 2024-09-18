@@ -9,14 +9,6 @@
         <source>Displays the teaser text of a page.</source>
         <target>Zeigt den Teasertext einer Seite an.</target>
       </trans-unit>
-      <trans-unit id="CTE.page_teasers.0">
-        <source>Page teaser (list)</source>
-        <target>Seitenteaser (Liste)</target>
-      </trans-unit>
-      <trans-unit id="CTE.page_teasers.1">
-        <source>Displays the teaser text of one or several pages.</source>
-        <target>Zeigt den Teasertext einer oder mehrere Seiten an.</target>
-      </trans-unit>
       <trans-unit id="MSC.limitPages.selected">
         <source>Show only selected pages</source>
         <target>Nur ausgewählte Seiten anzeigen</target>

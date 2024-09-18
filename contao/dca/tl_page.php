@@ -3,8 +3,8 @@
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
 
 $pm = PaletteManipulator::create()
-    ->addLegend('teaser_legend', 'meta_legend', PaletteManipulator::POSITION_AFTER, true)
-    ->addField('teaser', 'teaser_legend', PaletteManipulator::POSITION_APPEND)
+    ->addLegend('teaser_legend', 'meta_legend', PaletteManipulator::POSITION_BEFORE, true)
+    ->addField(['teaserTitle', 'teaserText'], 'teaser_legend', PaletteManipulator::POSITION_APPEND)
 ;
 
 foreach ($GLOBALS['TL_DCA']['tl_page']['palettes'] as $name => $palette) {
@@ -17,8 +17,15 @@ foreach ($GLOBALS['TL_DCA']['tl_page']['palettes'] as $name => $palette) {
 
 unset($name, $palette, $pm);
 
-$GLOBALS['TL_DCA']['tl_page']['fields']['teaser'] = [
+
+$GLOBALS['TL_DCA']['tl_page']['fields']['teaserTitle'] = [
+    'inputType' => 'text',
+    'eval' => array('maxlength'=>200, 'basicEntities'=>true),
+    'sql' => "varchar(255) NOT NULL default ''"
+];
+
+$GLOBALS['TL_DCA']['tl_page']['fields']['teaserText'] = [
     'inputType' => 'textarea',
-    'eval' => array('rte'=>'tinyMCE', 'tl_class'=>'clr'),
+    'eval' => array('tl_class'=>'clr', 'basicEntities'=>true),
     'sql' => "text NULL",
 ];

@@ -8,12 +8,6 @@
       <trans-unit id="CTE.page_teaser.1">
         <source>Displays the teaser text of a page.</source>
       </trans-unit>
-      <trans-unit id="CTE.page_teasers.0">
-        <source>Page teaser (list)</source>
-      </trans-unit>
-      <trans-unit id="CTE.page_teasers.1">
-        <source>Displays the teaser text of one or several pages.</source>
-      </trans-unit>
       <trans-unit id="MSC.limitPages.selected">
         <source>Show only selected pages</source>
       </trans-unit>
