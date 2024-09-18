@@ -1,22 +1,30 @@
 <?xml version="1.0" ?><xliff version="1.1">
-    <file datatype="php" original="contao/languages/en/default.php" source-language="en" target-language="de">
-        <body>
-            <trans-unit id="CTE.page_teaser.0">
-                <source>Page teaser</source>
-                <target>Seitenteaser</target>
-            </trans-unit>
-            <trans-unit id="CTE.page_teaser.1">
-                <source>Displays the teaser text of a page.</source>
-                <target>Zeigt den Teasertext einer Seite an.</target>
-            </trans-unit>
-            <trans-unit id="CTE.page_teasers.0">
-                <source>Page teaser (list)</source>
-                <target>Seitenteaser (Liste)</target>
-            </trans-unit>
-            <trans-unit id="CTE.page_teasers.1">
-                <source>Displays the teaser text of one or several pages.</source>
-                <target>Zeigt den Teasertext einer oder mehrere Seiten an.</target>
-            </trans-unit>
-        </body>
-    </file>
+  <file datatype="php" original="contao/languages/en/default.php" source-language="en" target-language="de">
+    <body>
+      <trans-unit id="CTE.page_teaser.0">
+        <source>Page teaser</source>
+        <target>Seitenteaser</target>
+      </trans-unit>
+      <trans-unit id="CTE.page_teaser.1">
+        <source>Displays the teaser text of a page.</source>
+        <target>Zeigt den Teasertext einer Seite an.</target>
+      </trans-unit>
+      <trans-unit id="CTE.page_teasers.0">
+        <source>Page teaser (list)</source>
+        <target>Seitenteaser (Liste)</target>
+      </trans-unit>
+      <trans-unit id="CTE.page_teasers.1">
+        <source>Displays the teaser text of one or several pages.</source>
+        <target>Zeigt den Teasertext einer oder mehrere Seiten an.</target>
+      </trans-unit>
+      <trans-unit id="MSC.limitPages.selected">
+        <source>Show only selected pages</source>
+        <target>Nur ausgewählte Seiten anzeigen</target>
+      </trans-unit>
+      <trans-unit id="MSC.limitPages.subpages">
+        <source>Show only subpages</source>
+        <target>Nur Unterseiten anzeigen</target>
+      </trans-unit>
+    </body>
+  </file>
 </xliff>

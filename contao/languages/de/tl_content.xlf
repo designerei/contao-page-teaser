@@ -1,14 +1,38 @@
 <?xml version="1.0" ?><xliff version="1.1">
-    <file datatype="php" original="contao/languages/en/tl_content.php" source-language="en" target-language="de">
-        <body>
-            <trans-unit id="tl_content.pages.0">
-                <source>Pages</source>
-                <target>Seiten</target>
-            </trans-unit>
-            <trans-unit id="tl_content.pages.1">
-                <source>Please choose one or more pages.</source>
-                <target>Bitte wählen Sie eine oder mehrere Seiten.</target>
-            </trans-unit>
-        </body>
-    </file>
+  <file datatype="php" original="contao/languages/en/tl_content.php" source-language="en" target-language="de">
+    <body>
+      <trans-unit id="tl_content.page.0">
+        <source>Pages</source>
+        <target>Seiten</target>
+      </trans-unit>
+      <trans-unit id="tl_content.page.1">
+        <source>Please choose one or more pages.</source>
+        <target>Bitte wählen Sie eine oder mehrere Seiten.</target>
+      </trans-unit>
+      <trans-unit id="tl_content.pages.0">
+        <source>Pages</source>
+        <target>Seiten</target>
+      </trans-unit>
+      <trans-unit id="tl_content.pages.1">
+        <source>Please choose one or more pages.</source>
+        <target>Bitte wählen Sie eine oder mehrere Seiten.</target>
+      </trans-unit>
+      <trans-unit id="tl_content.title_asc">
+        <source>Page title (ascending)</source>
+        <target>Seitentitel (aufsteigend)</target>
+      </trans-unit>
+      <trans-unit id="tl_content.title_desc">
+        <source>Page title (descending)</source>
+        <target>Seitentitel (absteigend)</target>
+      </trans-unit>
+      <trans-unit id="tl_content.limitPages.0">
+        <source>Restrict page output</source>
+        <target>Seitenausgabe einschränken</target>
+      </trans-unit>
+      <trans-unit id="tl_content.limitPages.1">
+        <source>Here you can restrict the output of the pages.</source>
+        <target>Hier können Sie die Ausgabe der Seiten einschränken.</target>
+      </trans-unit>
+    </body>
+  </file>
 </xliff>

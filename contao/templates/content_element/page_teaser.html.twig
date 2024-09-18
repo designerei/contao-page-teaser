@@ -1,8 +1,13 @@
 {% extends '@Contao/content_element/_base.html.twig' %}
 {% use "@Contao/content_element/_teaser.html.twig" %}
+{% use "@Contao/component/_list.html.twig" %}
 
 {% block inner %}
-    {% with { page: pages|first } %}
+    {% with { items: pages } %}{{ block('list_component') }}{% endwith %}
+{% endblock %}
+
+{% block list_item %}
+    {% with { page: item }%}
         {{ block('page_teaser_component') }}
     {% endwith %}
 {% endblock %}

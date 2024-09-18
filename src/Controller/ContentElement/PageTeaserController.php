@@ -12,40 +12,69 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 #[AsContentElement('page_teaser', category: 'includes')]
-#[AsContentElement('page_teasers', category: 'includes')]
 class PageTeaserController extends AbstractContentElementController
 {
     protected function getResponse(FragmentTemplate $template, ContentModel $model, Request $request): Response
     {
-        // Get pages
-        if ($model->type == 'page_teaser') {
-            $items[] = $model->page;
-        } else {
-            $items = StringUtil::deserialize($model->pages);
-        }
 
-        foreach ($items as $key => $id) {
-            $page = PageModel::findById($id);
-            if ($page->published) {
+        // Generate page array
+        $pages = array();
+        $items = StringUtil::deserialize($model->page) ?: array();
+        $limit = $model->limitPages ?: null;
 
-                // title
-                $pages[$key]['title'] = $page->title;
-
-                // href
-                $href = $page->getFrontendUrl();
-                $pages[$key]['href'] = $href;
-
-                // teaser
-                if ($page->teaser != null) {
-                    $pages[$key]['teaser'] = $page->teaser;
+        foreach ($items as $item) {
+            if (PageModel::findPublishedById($item)) {
+                if ($limit != 'subpages') {
+                    $pages[] = $item;
                 }
 
-                // model
-                $pages[$key]['model'] = $page;
+                if ($limit != 'selected') {
+                    $subpages = PageModel::findPublishedByPid($item);
+                    if ($subpages !== null) {
+                        foreach ($subpages as $subpage) {
+                            if (!in_array($subpage->id, $items)) {
+                                $pages[] = $subpage->id;
+                            }
+                        }
+                    }
+                }
             }
         }
+        unset ($items);
 
-        $template->set('pages', $pages);
+        // Get sorted PageModels
+        $options = array();
+        $sorting = $model->sortBy;
+
+        if ($sorting == 'title_asc') {
+            $options['order'] = 'title ASC';
+        } else if ($sorting == 'title_desc') {
+            $options['order'] = 'title DESC';
+        }
+
+        $pages = PageModel::findMultipleByIds($pages, $options) ?: array();
+        $items = array();
+
+        // Generate teasers
+        foreach ($pages as $key => $page) {
+
+            // title
+            $items[$key]['title'] = $page->title;
+
+            // href
+            $href = $page->getFrontendUrl();
+            $items[$key]['href'] = $href;
+
+            // teaser
+            if ($page->teaser != null) {
+                $items[$key]['teaser'] = $page->teaser;
+            }
+
+            // PageModel
+            $items[$key]['model'] = $page;
+        }
+
+        $template->set('pages', $items);
 
         return $template->getResponse();
     }
