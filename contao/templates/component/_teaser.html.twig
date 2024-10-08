@@ -7,27 +7,29 @@
 {% block teaser_component %}
     {% set teaser = teaser|default(_context) %}
 
-    {% with { headline: headline|default(_context)|merge({tag_name: 'h1', text: teaser.title}) } only %}
-        {{ block('headline_component') }}
-    {% endwith %}
+    {% block title %}
+        {% with { headline: headline|default(_context)|merge({tag_name: 'h1', text: teaser.title}) } only %}
+            {{ block('headline_component') }}
+        {% endwith %}
+    {% endblock %}
 
     {% block text %}
         {% if teaser.text|default %}
-            {% with { text: teaser.text } only %}
+            {% with { text: teaser.text } %}
                 {{ block('rich_text_component') }}
             {% endwith %}
         {% endif %}
     {% endblock %}
 
     {% block link %}
-        {% with { title: 'MSC.readMore'|trans([teaser.title]), href: teaser.href } only %}
+        {% with { title: 'MSC.readMore'|trans([teaser.title]), href: teaser.href } %}
             {{ block('read_more_component') }}
         {% endwith %}
     {% endblock %}
 
     {% block images %}
         {% if teaser.images|default %}
-            {% with {figure: teaser.images|first} only %}{{ block('picture_component') }}{% endwith %}
+            {% with {figure: teaser.images|first} %}{{ block('picture_component') }}{% endwith %}
         {% endif %}
     {% endblock %}
 
