@@ -15,7 +15,7 @@
 
     {% block text %}
         {% if teaser.text|default %}
-            {% with { text: teaser.text } %}
+            {% with { text: teaser.text, attributes: attrs().mergeWith(rich_text_attributes|default) } %}
                 {{ block('rich_text_component') }}
             {% endwith %}
         {% endif %}
