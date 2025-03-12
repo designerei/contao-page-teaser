@@ -6,14 +6,22 @@
         <target>Seitenteaser</target>
       </trans-unit>
       <trans-unit id="CTE.page_teaser.1">
-        <source>Displays the teaser text of a page.</source>
+        <source>Displays the teaser text of a single page.</source>
         <target>Zeigt den Teasertext einer Seite an.</target>
       </trans-unit>
-      <trans-unit id="MSC.limitPages.selected">
-        <source>Show only selected pages</source>
-        <target>Nur ausgewählte Seiten anzeigen</target>
+      <trans-unit id="CTE.page_teasers.0">
+        <source>Page teasers</source>
+        <target>Seitenteaser (Liste)</target>
       </trans-unit>
-      <trans-unit id="MSC.limitPages.subpages">
+      <trans-unit id="CTE.page_teasers.1">
+        <source>Displays the teaser text of one or multiple pages.</source>
+        <target>Zeigt den Teasertext einer oder mehrerer Seiten an.</target>
+      </trans-unit>
+      <trans-unit id="MSC.showSubpages.all">
+        <source>Show subpages pages additionally</source>
+        <target>Unterseiten zusätzlich anzeigen</target>
+      </trans-unit>
+      <trans-unit id="MSC.showSubpages.only">
         <source>Show only subpages</source>
         <target>Nur Unterseiten anzeigen</target>
       </trans-unit>

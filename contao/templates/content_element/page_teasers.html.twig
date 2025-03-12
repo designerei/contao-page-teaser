@@ -1,0 +1,15 @@
+{% extends '@Contao/content_element/_base.html.twig' %}
+{% use "@Contao/component/_teaser.html.twig" %}
+{% use "@Contao/component/_list.html.twig" %}
+
+{% block inner %}
+    {% if teasers is not empty %}
+        {% with { items: teasers } %}{{ block('list_component') }}{% endwith %}
+    {% endif %}
+{% endblock %}
+
+{% block list_item %}
+    {% with { teaser: item }%}
+        {{ block('teaser_component') }}
+    {% endwith %}
+{% endblock %}

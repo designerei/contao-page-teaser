@@ -21,5 +21,11 @@
     ],
     "extra": {
          "contao-manager-plugin": "designerei\\ContaoPageTeaserBundle\\ContaoManager\\Plugin"
+    },
+    "config": {
+        "allow-plugins": {
+            "contao-components/installer": true,
+            "php-http/discovery": true
+        }
     }
 }

@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 #[AsContentElement('page_teaser', category: 'includes')]
+#[AsContentElement('page_teasers', category: 'includes')]
 class PageTeaserController extends AbstractContentElementController
 {
     public function __construct(private readonly Studio $studio)
@@ -21,84 +22,94 @@ class PageTeaserController extends AbstractContentElementController
 
     protected function getResponse(FragmentTemplate $template, ContentModel $model, Request $request): Response
     {
+        if ($this->getType() == 'page_teaser') {
+            $page = (int) $model->teaserPage;
+            $pages = (array) $page;
+        } else {
+            $pages = StringUtil::deserialize($model->teaserPages);
+            $showSubpages = $model->showSubpages ?: null;
+            $sorting = $model->sortBy ?: null;
 
-        // Generate page array
-        $pages = array();
-        $items = StringUtil::deserialize($model->page) ?: array();
-        $limit = $model->limitPages ?: null;
-
-        foreach ($items as $item) {
-            if (PageModel::findPublishedById($item)) {
-                if ($limit != 'subpages') {
-                    $pages[] = $item;
-                }
-
-                if ($limit != 'selected') {
-                    $subpages = PageModel::findPublishedByPid($item);
-                    if ($subpages !== null) {
-                        foreach ($subpages as $subpage) {
-                            if (!in_array($subpage->id, $items)) {
-                                $pages[] = $subpage->id;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        unset ($items);
-
-        // Get sorted PageModels
-        $options = array();
-        $sorting = $model->sortBy;
-
-        if ($sorting == 'title_asc') {
-            $options['order'] = 'title ASC';
-        } else if ($sorting == 'title_desc') {
-            $options['order'] = 'title DESC';
-        }
-
-        $pages = PageModel::findMultipleByIds($pages, $options) ?: array();
-        $items = array();
-
-        // Generate teasers
-        foreach ($pages as $key => $page) {
-
-            // title
-            $items[$key]['title'] = $page->teaserTitle ?: $page->title;
-
-            // href
-            $href = $page->getFrontendUrl();
-            $items[$key]['href'] = $href;
-
-            // teaser
-            if ($page->teaserText != null) {
-                $items[$key]['text'] = $page->teaserText;
+            // add subpages
+            if ($showSubpages) {
+                $pages = $this->addSubpages($pages, $showSubpages);
             }
 
-            // image
+            // set sorting
+            if ($sorting == 'title_asc') {
+                $options['order'] = 'title ASC';
+            } else if ($sorting == 'title_desc') {
+                $options['order'] = 'title DESC';
+            }
+        }
+
+        // generate pages
+        $options['having'] = 'published = 1';
+        $pages = PageModel::findMultipleByIds($pages, $options ?? array());
+        $teasers = $this->generateTeaser($pages);
+
+        // set template data
+        if ($this->getType() == 'page_teaser') {
+            $template->set('teaser', current($teasers));
+        } else {
+            $template->set('teasers', $teasers);
+        }
+
+        return $template->getResponse();
+    }
+
+    protected function generateTeaser($pages): array
+    {
+        $teaser = [];
+
+        foreach ($pages as $index => $page) {
+            // get page images
+            $images = [];
+
             if ($page->pageImage != null) {
+                $pageImages = StringUtil::deserialize($page->pageImage);
 
-                $pageImage = StringUtil::deserialize($page->pageImage);
-                $images = array();
-
-                foreach ($pageImage as $image) {
+                foreach ($pageImages as $image) {
                     $images[] = $this->studio
                         ->createFigureBuilder()
                         ->fromUuid($image ?: '')
-                        ->setSize($model->size)
+                        ->setSize($model->size ?? null)
                         ->buildIfResourceExists()
                     ;
                 }
-
-                $items[$key]['images'] = $images;
             }
 
-            // PageModel
-            // $items[$key]['model'] = $page;
+            $teaser[$index] = [
+                'title' => $page->teaserTitle ?: $page->title,
+                'href' => $page->getFrontendUrl(),
+                'text' => $page->teaserText ?: null,
+                'images' => $images ?: null,
+            ];
         }
 
-        $template->set('pages', $items);
+        return $teaser;
+    }
 
-        return $template->getResponse();
+    protected function addSubpages(array $pages, string $showSubpages = null): array
+    {
+        $parentPages = $pages;
+        $pages = [];
+
+        foreach ($parentPages as $page) {
+            // add parent page
+            if ($showSubpages != 'only') {
+                $pages[] = $page;
+            }
+
+            // add subpages
+            $page = PageModel::findOneBy('id', $page);
+            $subpages = PageModel::findPublishedByPid($page->id);
+
+            foreach ($subpages as $subpage) {
+                $pages[] = $subpage->id;
+            }
+        }
+
+        return $pages;
     }
 }

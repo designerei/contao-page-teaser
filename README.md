@@ -19,6 +19,6 @@ composer require designerei/contao-page-teaser
 - Choose one or multiple pages
 - Order pages by page title or custom order
 - Restrict page output
-  - Default: Show all selected pages including their subpages
-  - Show only selected pages
+  - Default: Show only selected pages 
+  - Show all selected pages including their subpages
   - Show only subpages

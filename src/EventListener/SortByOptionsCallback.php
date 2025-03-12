@@ -14,7 +14,7 @@ class SortByOptionsCallback
         $options = $GLOBALS['TL_DCA']['tl_content']['fields']['sortBy']['options'];
 
         $element = ContentModel::findById($dc->id);
-        if ($element->type === 'page_teaser') {
+        if ($element->type === 'page_teasers') {
             $options = [
               'custom',
               'title_asc',
