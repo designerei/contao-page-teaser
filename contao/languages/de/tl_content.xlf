@@ -41,6 +41,38 @@
         <source>Here you can define the output of subpages.</source>
         <target>Hier können Sie die Ausgabe von Unterseiten definieren.</target>
       </trans-unit>
+      <trans-unit id="tl_content.hideImages.0">
+        <source>Hide images</source>
+        <target>Bilder ausblenden</target>
+      </trans-unit>
+      <trans-unit id="tl_content.hideImages.1">
+        <source>Images are being hidden.</source>
+        <target>Bilder werden nicht dargestellt.</target>
+      </trans-unit>
+      <trans-unit id="tl_content.overwriteTeaserContent.0">
+        <source>Overwrite teaser content</source>
+        <target>Teaserinhalte überschreiben.</target>
+      </trans-unit>
+      <trans-unit id="tl_content.overwriteTeaserContent.1">
+        <source>Overwrite the contents of the teaser (title, text).</source>
+        <target>Inhalte des Teasers (Titel, Text) überschreiben.</target>
+      </trans-unit>
+      <trans-unit id="tl_content.teaserText.0">
+        <source>Page teaser</source>
+        <target>Teasertext</target>
+      </trans-unit>
+      <trans-unit id="tl_content.teaserText.1">
+        <source>Adds a text to the page teaser.</source>
+        <target>Fügt dem Seitenteaser einen Text hinzu.</target>
+      </trans-unit>
+      <trans-unit id="tl_content.teaserTitle.0">
+        <source>Teaser title</source>
+        <target>Teasertitel</target>
+      </trans-unit>
+      <trans-unit id="tl_content.teaserTitle.1">
+        <source>Overwrites the title of the page teaser.</source>
+        <target>Überschreibt den Titel des Seitenteasers.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

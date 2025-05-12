@@ -17,15 +17,14 @@ foreach ($GLOBALS['TL_DCA']['tl_page']['palettes'] as $name => $palette) {
 
 unset($name, $palette, $pm);
 
-
 $GLOBALS['TL_DCA']['tl_page']['fields']['teaserTitle'] = [
     'inputType' => 'text',
-    'eval' => array('maxlength'=>200, 'basicEntities'=>true),
+    'eval' => ['tl_class' => 'w50', 'maxlength' => 200, 'basicEntities' => true],
     'sql' => "varchar(255) NOT NULL default ''"
 ];
 
 $GLOBALS['TL_DCA']['tl_page']['fields']['teaserText'] = [
     'inputType' => 'textarea',
-    'eval' => array('tl_class'=>'clr', 'basicEntities'=>true),
-    'sql' => "text NULL",
+    'eval' => ['tl_class' => 'clr', 'basicEntities' => true],
+    'sql' => "text NULL"
 ];

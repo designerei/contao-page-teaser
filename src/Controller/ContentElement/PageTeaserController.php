@@ -16,12 +16,22 @@ use Symfony\Component\HttpFoundation\Response;
 #[AsContentElement('page_teasers', category: 'includes')]
 class PageTeaserController extends AbstractContentElementController
 {
+    private bool $hideImages;
+    private bool $overwriteTeaserContent;
+    private string $teaserTitle;
+    private string $teaserText;
+
     public function __construct(private readonly Studio $studio)
     {
     }
 
     protected function getResponse(FragmentTemplate $template, ContentModel $model, Request $request): Response
     {
+        $this->hideImages = $model->hideImages;
+        $this->overwriteTeaserContent = $model->overwriteTeaserContent;
+        $this->teaserTitle = $model->teaserTitle ?? '';
+        $this->teaserText = $model->teaserText ?? '';
+
         if ($this->getType() == 'page_teaser') {
             $page = (int) $model->teaserPage;
             $pages = (array) $page;
@@ -85,6 +95,21 @@ class PageTeaserController extends AbstractContentElementController
                 'text' => $page->teaserText ?: null,
                 'images' => $images ?: null,
             ];
+
+            // hide images
+            if ($this->hideImages) {
+                $teaser[$index]['images'] = [];
+            }
+
+            // overwrite teaser content
+            if ($this->overwriteTeaserContent) {
+                if ($this->teaserTitle) {
+                    $teaser[$index]['title'] = $this->teaserTitle;
+                }
+                if ($this->teaserText) {
+                    $teaser[$index]['text'] = $this->teaserText;
+                }
+            }
         }
 
         return $teaser;
