@@ -20,7 +20,8 @@
     {% block text %}
         {% if teaser.text|default %}
             {% with {
-                text: teaser.text
+                text: teaser.text,
+                attributes: rich_text_attributes|default
             } %}
                 {{ block('rich_text_component') }}
             {% endwith %}
