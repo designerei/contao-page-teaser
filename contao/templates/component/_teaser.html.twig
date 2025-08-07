@@ -8,21 +8,30 @@
     {% set teaser = teaser|default(_context) %}
 
     {% block title %}
-        {% with { headline: headline|default(_context)|merge({tag_name: 'h1', text: teaser.title}) } %}
+        {% with { headline: {
+            text: teaser.title,
+            tag_name: teaser.tag_name|default('h1'),
+            attributes: headline_attributes|default
+        } } %}
             {{ block('headline_component') }}
         {% endwith %}
     {% endblock %}
 
     {% block text %}
         {% if teaser.text|default %}
-            {% with { text: teaser.text, attributes: attrs().mergeWith(rich_text_attributes|default) } %}
+            {% with {
+                text: teaser.text
+            } %}
                 {{ block('rich_text_component') }}
             {% endwith %}
         {% endif %}
     {% endblock %}
 
     {% block link %}
-        {% with { title: 'MSC.readMore'|trans([teaser.title]), href: teaser.href } %}
+        {% with {
+            title: 'MSC.readMore'|trans([teaser.title]),
+            href: teaser.href
+        } %}
             {{ block('read_more_component') }}
         {% endwith %}
     {% endblock %}

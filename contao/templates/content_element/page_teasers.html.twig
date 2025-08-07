@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block list_item %}
-    {% with { teaser: item }%}
+    {% with { teaser: item } %}
         {{ block('teaser_component') }}
     {% endwith %}
 {% endblock %}
