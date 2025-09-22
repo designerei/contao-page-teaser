@@ -9,8 +9,10 @@ use Contao\CoreBundle\Image\Studio\Studio;
 use Contao\CoreBundle\Twig\FragmentTemplate;
 use Contao\StringUtil;
 use Contao\PageModel;
+use designerei\ContaoPageTeaserBundle\Event\PageTeaserEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 #[AsContentElement('page_teaser', category: 'includes')]
 #[AsContentElement('page_teasers', category: 'includes')]
@@ -21,9 +23,10 @@ class PageTeaserController extends AbstractContentElementController
     private string $teaserTitle;
     private string $teaserText;
 
-    public function __construct(private readonly Studio $studio)
-    {
-    }
+    public function __construct(
+        private readonly Studio $studio,
+        private readonly EventDispatcherInterface $eventDispatcher
+    ) {}
 
     protected function getResponse(FragmentTemplate $template, ContentModel $model, Request $request): Response
     {
@@ -57,6 +60,11 @@ class PageTeaserController extends AbstractContentElementController
         $options['having'] = 'published = 1';
         $pages = PageModel::findMultipleByIds($pages, $options ?? array());
         $teasers = $this->generateTeaser($pages);
+
+        // dispatch events
+        $event = new PageTeaserEvent($teasers, $model);
+        $this->eventDispatcher->dispatch($event, PageTeaserEvent::NAME);
+        $teasers = $event->getTeasers();
 
         // set template data
         if ($this->getType() == 'page_teaser') {
@@ -94,6 +102,7 @@ class PageTeaserController extends AbstractContentElementController
                 'href' => $page->getFrontendUrl(),
                 'text' => $page->teaserText ?: null,
                 'images' => $images ?: null,
+                'page' => $page,
             ];
 
             // hide images
