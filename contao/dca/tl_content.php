@@ -3,7 +3,7 @@
 $GLOBALS['TL_DCA']['tl_content']['palettes']['__selector__'][] = 'overwriteTeaserContent';
 
 $GLOBALS['TL_DCA']['tl_content']['palettes']['page_teaser'] = '
-    {type_legend},type;
+    {type_legend},title,type,headline;
     {include_legend},teaserPage,hideImages,overwriteTeaserContent;
     {template_legend:hide},customTpl;
     {protected_legend:hide},protected;
@@ -12,7 +12,7 @@ $GLOBALS['TL_DCA']['tl_content']['palettes']['page_teaser'] = '
 ';
 
 $GLOBALS['TL_DCA']['tl_content']['palettes']['page_teasers'] = '
-    {type_legend},type;
+    {type_legend},title,type,headline;
     {include_legend},teaserPages,sortPages,showSubpages;
     {template_legend:hide},customTpl;
     {protected_legend:hide},protected;

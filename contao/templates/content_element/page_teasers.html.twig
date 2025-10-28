@@ -2,7 +2,7 @@
 {% use "@Contao/component/_teaser.html.twig" %}
 {% use "@Contao/component/_list.html.twig" %}
 
-{% block inner %}
+{% block content %}
     {% if teasers is not empty %}
         {% with { items: teasers } %}{{ block('list_component') }}{% endwith %}
     {% endif %}
