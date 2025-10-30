@@ -24,7 +24,7 @@ class PageTeasersController extends AbstractPageTeaserContentElementController
     {
         $pageIds = $model->teaserPages !== null ? StringUtil::deserialize($model->teaserPages) : [];
         $showSubpages = $model->showSubpages ?? null;
-        $sortPages = $model->sortPages ?? null;
+        $sortPages = $model->sortPages ?? '';
 
         $options = [];
 
@@ -36,7 +36,8 @@ class PageTeasersController extends AbstractPageTeaserContentElementController
             $sorting = match ($sortPages) {
                 'title_asc'  => 'title ASC',
                 'title_desc' => 'title DESC',
-                'random'     => 'RAND()'
+                'random'     => 'RAND()',
+                default       => null,
             };
 
             $options['sorting'] = $sorting;
