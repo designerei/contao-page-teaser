@@ -24,11 +24,15 @@ class PageTeaserController extends AbstractPageTeaserContentElementController
         $ok      = is_int($pageId) || (is_string($pageId) && ctype_digit($pageId));
         $pageIds = ($ok && (int)$pageId > 0) ? [(int)$pageId] : [];
 
+        if ($pageIds === []) {
+            $template->set('teasers', []);
+            return $template->getResponse();
+        }
+
         $pageCollection = $this->getPages($pageIds);
         $teasers = $this->generateTeaser($pageCollection, $model);
 
         $template->set('teasers', $teasers);
-
         return $template->getResponse();
     }
 }

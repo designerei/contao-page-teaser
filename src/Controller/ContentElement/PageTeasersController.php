@@ -43,11 +43,17 @@ class PageTeasersController extends AbstractPageTeaserContentElementController
             $options['sorting'] = $sorting;
         }
 
+        $pageIds = $pageIds ?? [];
+
+        if ($pageIds === []) {
+            $template->set('teasers', []);
+            return $template->getResponse();
+        }
+
         $pageCollection = $this->getPages($pageIds, $options);
         $teasers = $this->generateTeaser($pageCollection, $model);
 
         $template->set('teasers', $teasers);
-
         return $template->getResponse();
     }
 
