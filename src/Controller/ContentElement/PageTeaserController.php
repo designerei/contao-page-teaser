@@ -30,7 +30,7 @@ class PageTeaserController extends AbstractPageTeaserContentElementController
         }
 
         $pageCollection = $this->getPages($pageIds);
-        $teasers = $this->generateTeaser($pageCollection, $model);
+        $teasers = $pageCollection ? $this->generateTeaser($pageCollection, $model) : [];
 
         $template->set('teasers', $teasers);
         return $template->getResponse();
