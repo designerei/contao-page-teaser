@@ -6,7 +6,3 @@ services:
   designerei\ContaoPageTeaserBundle\:
     resource: ../src
     exclude: ../src/{ContaoManager,DependencyInjection}
-
-  designerei\ContaoPageTeaserBundle\Controller\ContentElement\PageTeaserController:
-    public: true
-    arguments: ['@contao.image.studio']
