@@ -2,5 +2,5 @@
 {% use "@Contao/component/_teaser.html.twig" %}
 
 {% block content %}
-    {{ block('teaser_component') }}
+    {% with {teaser: teasers|first} %}{{ block('teaser_component') }}{% endwith %}
 {% endblock %}
