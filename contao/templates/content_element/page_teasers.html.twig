@@ -3,8 +3,16 @@
 {% use "@Contao/component/_list.html.twig" %}
 
 {% block content %}
-    {% if teasers is not empty %}
-        {% with { items: teasers } %}{{ block('list_component') }}{% endwith %}
+    {% if as_editor_view %}
+        <ul>
+            {% for title in titles %}
+                <li>{{ title }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        {% if teasers is not empty %}
+            {% with { items: teasers } %}{{ block('list_component') }}{% endwith %}
+        {% endif %}
     {% endif %}
 {% endblock %}
 

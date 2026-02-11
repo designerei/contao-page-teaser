@@ -50,10 +50,13 @@ class PageTeasersController extends AbstractPageTeaserContentElementController
             return $template->getResponse();
         }
 
-        $pageCollection = $this->getPages($pageIds, $options);
+        $pageCollection = PageModel::findPublishedRegularByIds($pageIds, $options);
+        $pageTitlesCollection = PageModel::findMultipleByIds($pageIds)->fetchEach('title');
         $teasers = $pageCollection ? $this->generateTeaser($pageCollection, $model) : [];
 
         $template->set('teasers', $teasers);
+        $template->set('titles', $pageTitlesCollection);
+
         return $template->getResponse();
     }
 
@@ -68,7 +71,7 @@ class PageTeasersController extends AbstractPageTeaserContentElementController
             }
 
             $page = PageModel::findOneBy('id', $page);
-            $subpages = PageModel::findPublishedByPid($page->id);
+            $subpages = PageModel::findPublishedRegularByPid($page->id);
 
             foreach ($subpages as $subpage) {
                 $pages[] = $subpage->id;

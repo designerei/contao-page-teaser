@@ -2,5 +2,11 @@
 {% use "@Contao/component/_teaser.html.twig" %}
 
 {% block content %}
-    {% with {teaser: teasers|first} %}{{ block('teaser_component') }}{% endwith %}
+    {% if as_editor_view %}
+        <p>{{ titles|first }}</p>
+    {% else %}
+        {% if teasers is not empty %}
+            {% with {teaser: teasers|first} %}{{ block('teaser_component') }}{% endwith %}
+        {% endif %}
+    {% endif %}
 {% endblock %}
