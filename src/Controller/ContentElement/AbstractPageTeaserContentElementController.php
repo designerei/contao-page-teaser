@@ -13,13 +13,6 @@ use designerei\ContaoPageTeaserBundle\Event\PageTeaserEvent;
 
 abstract class AbstractPageTeaserContentElementController extends AbstractContentElementController
 {
-    protected function getPages(array $pages, array $options = []): ?Collection
-    {
-        $options['having'] = 'published = 1';
-
-        return PageModel::findMultipleByIds($pages, $options);
-    }
-
     protected function generateTeaser(Collection $pages, ?ContentModel $model): array
     {
         $teasers = [];

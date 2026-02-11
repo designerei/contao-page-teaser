@@ -6,6 +6,7 @@ use Contao\ContentModel;
 use Contao\CoreBundle\DependencyInjection\Attribute\AsContentElement;
 use Contao\CoreBundle\Image\Studio\Studio;
 use Contao\CoreBundle\Twig\FragmentTemplate;
+use Contao\PageModel;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -29,10 +30,13 @@ class PageTeaserController extends AbstractPageTeaserContentElementController
             return $template->getResponse();
         }
 
-        $pageCollection = $this->getPages($pageIds);
+        $pageCollection = PageModel::findPublishedRegularByIds($pageIds);
+        $pageTitlesCollection = PageModel::findMultipleByIds($pageIds)->fetchEach('title');
         $teasers = $pageCollection ? $this->generateTeaser($pageCollection, $model) : [];
 
         $template->set('teasers', $teasers);
+        $template->set('titles', $pageTitlesCollection);
+
         return $template->getResponse();
     }
 }
