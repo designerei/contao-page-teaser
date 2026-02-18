@@ -60,7 +60,7 @@ class PageTeasersController extends AbstractPageTeaserContentElementController
         return $template->getResponse();
     }
 
-    protected function addSubpages(array $pages, string $showSubpages = null): array
+    protected function addSubpages(array $pages, ?string $showSubpages = null): array
     {
         $parentPages = $pages;
         $pages = [];
@@ -71,7 +71,16 @@ class PageTeasersController extends AbstractPageTeaserContentElementController
             }
 
             $page = PageModel::findOneBy('id', $page);
+
+            if (null === $page) {
+                continue;
+            }
+
             $subpages = PageModel::findPublishedRegularByPid($page->id);
+
+            if (null === $subpages) {
+                continue;
+            }
 
             foreach ($subpages as $subpage) {
                 $pages[] = $subpage->id;
