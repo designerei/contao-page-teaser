@@ -27,6 +27,7 @@ class PageTeasersController extends AbstractPageTeaserContentElementController
         $sortPages = $model->sortPages ?? '';
 
         $options = [];
+        $options['having'] = "type IN ('regular', 'forward')";
 
         if ($showSubpages) {
             $pageIds = $this->addSubpages($pageIds, $showSubpages);
@@ -50,7 +51,7 @@ class PageTeasersController extends AbstractPageTeaserContentElementController
             return $template->getResponse();
         }
 
-        $pageCollection = PageModel::findPublishedRegularByIds($pageIds, $options);
+        $pageCollection = PageModel::findMultipleByIds($pageIds, $options);
         $pageTitlesCollection = PageModel::findMultipleByIds($pageIds)->fetchEach('title');
         $teasers = $pageCollection ? $this->generateTeaser($pageCollection, $model) : [];
 
