@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
-#[AsContentElement('page_teasers', category: 'includes')]
+#[AsContentElement('page_teasers', category: 'links')]
 class PageTeasersController extends AbstractPageTeaserContentElementController
 {
     public function __construct(
