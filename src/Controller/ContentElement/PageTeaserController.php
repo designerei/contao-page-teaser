@@ -21,18 +21,28 @@ class PageTeaserController extends AbstractPageTeaserContentElementController
 
     protected function getResponse(FragmentTemplate $template, ContentModel $model, Request $request): Response
     {
-        $pageId  = $model->teaserPage;
-        $ok      = is_int($pageId) || (is_string($pageId) && ctype_digit($pageId));
-        $pageIds = ($ok && (int)$pageId > 0) ? [(int)$pageId] : [];
+        $pageId = $model->teaserPage;
+        $ok = is_int($pageId) || (is_string($pageId) && ctype_digit($pageId));
+        $pageIds = ($ok && (int) $pageId > 0) ? [(int) $pageId] : [];
 
         if ($pageIds === []) {
             $template->set('teasers', []);
+            $template->set('titles', []);
+
             return $template->getResponse();
         }
 
         $pageCollection = PageModel::findPublishedRegularByIds($pageIds);
-        $pageTitlesCollection = PageModel::findMultipleByIds($pageIds)->fetchEach('title');
-        $teasers = $pageCollection ? $this->generateTeaser($pageCollection, $model) : [];
+
+        if (null === $pageCollection) {
+            $template->set('teasers', []);
+            $template->set('titles', []);
+
+            return $template->getResponse();
+        }
+
+        $teasers = $this->generateTeaser($pageCollection, $model);
+        $pageTitlesCollection = $pageCollection->fetchEach('title');
 
         $template->set('teasers', $teasers);
         $template->set('titles', $pageTitlesCollection);

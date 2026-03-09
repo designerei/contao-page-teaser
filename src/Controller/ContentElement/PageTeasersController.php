@@ -22,7 +22,9 @@ class PageTeasersController extends AbstractPageTeaserContentElementController
 
     protected function getResponse(FragmentTemplate $template, ContentModel $model, Request $request): Response
     {
-        $pageIds = $model->teaserPages !== null ? StringUtil::deserialize($model->teaserPages) : [];
+        $pageIds = StringUtil::deserialize($model->teaserPages, true);
+        $pageIds = array_values(array_filter($pageIds));
+
         $showSubpages = $model->showSubpages ?? null;
         $sortPages = $model->sortPages ?? '';
 
@@ -31,32 +33,43 @@ class PageTeasersController extends AbstractPageTeaserContentElementController
 
         if ($showSubpages) {
             $pageIds = $this->addSubpages($pageIds, $showSubpages);
+            $pageIds = array_values(array_unique(array_filter($pageIds)));
+        }
+
+        if ([] === $pageIds) {
+            $template->set('teasers', []);
+            $template->set('titles', []);
+
+            return $template->getResponse();
         }
 
         if ($sortPages !== 'custom') {
             $sorting = match ($sortPages) {
-                'title_asc'  => 'title ASC',
+                'title_asc' => 'title ASC',
                 'title_desc' => 'title DESC',
-                'random'     => 'RAND()',
-                default       => null,
+                'random' => 'RAND()',
+                default => null,
             };
 
-            $options['sorting'] = $sorting;
-        }
-
-        $pageIds = $pageIds ?? [];
-
-        if ($pageIds === []) {
-            $template->set('teasers', []);
-            return $template->getResponse();
+            if (null !== $sorting) {
+                $options['sorting'] = $sorting;
+            }
         }
 
         $pageCollection = PageModel::findMultipleByIds($pageIds, $options);
-        $pageTitlesCollection = PageModel::findMultipleByIds($pageIds)->fetchEach('title');
-        $teasers = $pageCollection ? $this->generateTeaser($pageCollection, $model) : [];
+
+        if (null === $pageCollection) {
+            $template->set('teasers', []);
+            $template->set('titles', []);
+
+            return $template->getResponse();
+        }
+
+        $teasers = $this->generateTeaser($pageCollection, $model);
+        $titles = $pageCollection->fetchEach('title');
 
         $template->set('teasers', $teasers);
-        $template->set('titles', $pageTitlesCollection);
+        $template->set('titles', $titles);
 
         return $template->getResponse();
     }
@@ -67,7 +80,7 @@ class PageTeasersController extends AbstractPageTeaserContentElementController
         $pages = [];
 
         foreach ($parentPages as $page) {
-            if ($showSubpages != 'only') {
+            if ('only' !== $showSubpages) {
                 $pages[] = $page;
             }
 
